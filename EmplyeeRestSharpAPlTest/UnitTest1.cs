@@ -57,7 +57,30 @@ namespace EmplyeeRestSharpAPlTest
              Employee dataResponse = JsonConvert.DeserializeObject<Employee>(response.Content);
              Assert.AreEqual("Bhagyalaxmi", dataResponse.name);
              Assert.AreEqual("20000", dataResponse.salary);
-
         }
+        [TestMethod]
+        public void whileAddingMultiEmployees_OnPost_ShouldRetuenAddedEmployee()
+        {
+            List<Employee> employees = new List<Employee>();
+            employees.Add(new Employee { name = "Anitha", salary = "30000" });
+            employees.Add(new Employee { name = "Jaipal", salary = "40000" });
+            foreach (Employee employee in employees)
+            {
+
+                RestRequest request = new RestRequest("/employees", Method.POST);
+                JObject jObjectbody = new JObject();
+                jObjectbody.Add("name", employee.name);
+                jObjectbody.Add("salary", employee.salary);
+
+                request.AddParameter("application/json", jObjectbody, ParameterType.RequestBody);
+
+                IRestResponse response = client.Execute(request);
+
+                Assert.AreEqual(response.StatusCode, HttpStatusCode.Created);
+                Employee dataResponse = JsonConvert.DeserializeObject<Employee>(response.Content);
+                Assert.AreEqual(employee.name, dataResponse.name);
+            }
+        }
+
     }
 }
