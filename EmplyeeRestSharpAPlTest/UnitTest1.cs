@@ -81,6 +81,25 @@ namespace EmplyeeRestSharpAPlTest
                 Assert.AreEqual(employee.name, dataResponse.name);
             }
         }
+        [TestMethod]
+        public void whileUpdatingEmployee_OnPut_shouldReturnUpdateEmployee()
+        {
+            RestRequest request = new RestRequest("/employees/12", Method.PUT);
+            JObject jObjectbody = new JObject();
+            jObjectbody.Add("name","Bhagyalaxmi");
+            jObjectbody.Add("salary", "50000");
+
+
+            request.AddParameter("application/json", jObjectbody, ParameterType.RequestBody);
+
+            IRestResponse response = client.Execute(request);
+
+            Assert.AreEqual(response.StatusCode, HttpStatusCode.OK);
+            Employee dataResponse = JsonConvert.DeserializeObject<Employee>(response.Content);
+            Assert.AreEqual("Bhagyalaxmi", dataResponse.name);
+            Assert.AreEqual("50000",dataResponse.salary);
+
+        }
 
     }
 }
