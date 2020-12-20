@@ -30,7 +30,6 @@ namespace EmplyeeRestSharpAPlTest
             IRestResponse response = client.Execute(request);
             return response;
         }
-
         [TestMethod]
         public void WhileCallingGETApi_ReturnEmployeeList()
         {
