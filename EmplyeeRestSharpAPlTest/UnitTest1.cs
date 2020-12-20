@@ -98,8 +98,13 @@ namespace EmplyeeRestSharpAPlTest
             Employee dataResponse = JsonConvert.DeserializeObject<Employee>(response.Content);
             Assert.AreEqual("Bhagyalaxmi", dataResponse.name);
             Assert.AreEqual("50000",dataResponse.salary);
-
         }
-
+        [TestMethod]
+        public void whileDeletingEmployee_OnDelete_ShouldReturnDeleteEmployee()
+        {
+            RestRequest request = new RestRequest("/employees/12", Method.DELETE);
+            IRestResponse response = client.Execute(request);
+            Assert.AreEqual(response.StatusCode, HttpStatusCode.OK);
+        }
     }
 }
